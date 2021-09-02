@@ -11,7 +11,6 @@
           <q-step :name="stepOne.name"
                   :icon="stepOne.icon"
                   :title="stepOne.title"
-
           >
             <step-one-content
               :description="stepOne.description"
@@ -60,18 +59,25 @@
                   title="Resultados"
                   icon="addchart"
                   >
-                <div class="row ">
-                  <div class="col-4" v-for="(property, index) in arrayableProperties" :key="index">
+                <div class="row" v-if="step === 6">
+                  <div class="col-sm-12 col-md-12 col-lg-4"
+                       v-for="(property, index) in arrayableProperties"
+                       :key="index"
+                  >
                     <div v-for="(arr, arrIndex) in arrayableContent" :key="arrIndex">
                       <apexchart type="bar"
                                  v-if="arr.series[0].property === property"
                                  :series="arr.series"
                                  :options="arr['chartOptions']"
+                                 height="auto"
+                                 width="100%"
                       />
                       <apexchart type="line"
                                  v-if="arr.series[0].property === property"
                                  :series="arr.series"
                                  :options="arr['chartOptions']"
+                                 height="auto"
+                                 width="100%"
                       />
                     </div>
                   </div>
@@ -130,8 +136,8 @@ export default {
       series: [44, 55, 41, 17, 15],
       arrayableLabels: {
         chart: {
-          // type: '',
           height: 350,
+          width: '100%',
         },
         plotOptions: {
           bar: {
@@ -154,6 +160,7 @@ export default {
           },
         },
       },
+
     };
   },
   computed: {
