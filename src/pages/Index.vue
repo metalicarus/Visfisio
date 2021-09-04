@@ -59,6 +59,17 @@
                   title="Resultados"
                   icon="addchart"
                   >
+                <div class="row">
+                  <div class="col-sm-12 col-md-12 col-lg-3"
+                       v-for="(struture, index) in strutures"
+                       :key="index"
+                  >
+                    <q-tree node-key="label"
+                            :nodes="[struture]"
+                            :key="index"
+                    />
+                  </div>
+                </div>
                 <div class="row" v-if="step === 6">
                   <div class="col-sm-12 col-md-12 col-lg-4"
                        v-for="(property, index) in arrayableProperties"
@@ -164,7 +175,29 @@ export default {
     };
   },
   computed: {
+    strutures() {
+      const strutures = [];
 
+      const contents = [...this.comparables];
+      contents.push(this.mainContent);
+
+      contents.forEach((content, i) => {
+        if (content !== undefined) {
+          const keys = Object.keys(content);
+          const obj = {
+            label: i,
+            children: [],
+          };
+          keys.forEach((x) => {
+            if (!Array.isArray(content[x])) {
+              obj.children.push({ label: `${x}: ${content[x]}` });
+            }
+          });
+          strutures.push(obj);
+        }
+      });
+      return strutures;
+    },
     arrayableProperties() {
       const keys = Object.keys(this.mainContent);
       const arrayable = [];
