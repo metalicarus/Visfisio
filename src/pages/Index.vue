@@ -289,7 +289,7 @@ export default {
         name: 1,
         title: 'Delimitação',
         icon: 'settings',
-        description: 'Estamos na primeira etapa. Ela é primordial para compreendermos qual o tipo de análise'
+        description: 'Estamos na primeira etapa. Ela é primordial para compreendermos qual o tipo de análise '
           + 'necessitada. Preencha um dos campos abaixo indicando o intuito desta sessão.',
 
       };
@@ -299,7 +299,7 @@ export default {
         name: 2,
         title: 'Seleção do primeiro arquivo',
         icon: 'upload_file',
-        description: 'Selecione o arquivo do primeiro paciente e avance até a próxima etapa.',
+        description: (this.patients === 'one') ? 'Selecione o arquivo da primeira sessão e avance até a próxima etapa.' : 'Selecione o arquivo de sessão do primeiro paciente e avance até a próxima etapa.',
       };
     },
     stepThree() {
@@ -307,7 +307,7 @@ export default {
         name: 3,
         title: 'Comparações',
         icon: 'compare_arrows',
-        description: 'Vocề deseja importar mais arquivos de sessões de outros pacientes?',
+        description: (this.patients === 'one') ? 'Você deseja importar mais sessões do mesmo paciente?' : 'Vocề deseja importar mais sessões de outros pacientes?',
       };
     },
     stepFour() {
@@ -343,9 +343,6 @@ export default {
         comparables.props.forEach((prop) => {
           if (!options.xaxis.categories.includes(prop)) options.xaxis.categories.push(prop);
         });
-
-        // options.xaxis.categories.sort();
-
         result.chartOptions = options;
 
         comparables.series.forEach((comparable) => {
@@ -369,7 +366,6 @@ export default {
   },
   methods: {
     setLargeChart(chart) {
-      console.log(chart);
       this.largeChart = (this.largeChart === chart) ? '' : chart;
     },
     dataNormalize(a, b) {
