@@ -70,30 +70,88 @@
                     />
                   </div>
                 </div>
-                <div class="row" v-if="step === 6">
-                  <div class="col-sm-12 col-md-12 col-lg-4"
-                       v-for="(property, index) in arrayableProperties"
-                       :key="index"
-                  >
-                    <div v-for="(arr, arrIndex) in arrayableContent" :key="arrIndex">
-                      <apexchart type="bar"
-                                 v-if="arr.series[0].property === property"
-                                 :series="arr.series"
-                                 :options="arr['chartOptions']"
-                                 height="auto"
-                                 width="100%"
-                      />
-                      <apexchart type="line"
-                                 v-if="arr.series[0].property === property"
-                                 :series="arr.series"
-                                 :options="arr['chartOptions']"
-                                 height="auto"
-                                 width="100%"
-                      />
-                    </div>
-                  </div>
+<!--                <div class="row" v-if="step === 6">-->
+<!--                  <div :class="(largeChart === property) ?-->
+<!--                          'col-sm-12 col-md-12 col-lg-8' :-->
+<!--                          'col-sm-12 col-md-12 col-lg-4'"-->
+<!--                       v-for="(property, index) in arrayableProperties"-->
+<!--                       :key="index"-->
+<!--                       @click="setLargeChart(property)"-->
+<!--                  >-->
+<!--                    <div v-for="(arr, arrIndex) in arrayableContent" :key="arrIndex">-->
+<!--                      <apexchart type="bar"-->
+<!--                                 v-if="arr.series[0].property === property"-->
+<!--                                 :series="arr.series"-->
+<!--                                 :options="arr['chartOptions']"-->
+<!--                                 height="auto"-->
+<!--                                 width="100%"-->
+<!--                      />-->
+<!--                      <apexchart type="line"-->
+<!--                                 v-if="arr.series[0].property === property"-->
+<!--                                 :series="arr.series"-->
+<!--                                 :options="arr['chartOptions']"-->
+<!--                                 height="auto"-->
+<!--                                 width="100%"-->
+<!--                      />-->
+<!--                    </div>-->
+<!--                  </div>-->
 
+<!--                </div>-->
+
+            <div class="row" v-if="step === 6">
+              <div :class="(largeChart === '') ?
+                          'col-sm-12 col-md-12 col-lg-4' :
+                          (largeChart === `bar${property}`) ?
+                          'col-sm-12 col-md-12 col-lg-6' :
+                          'col-sm-12 col-md-12 col-lg-3'"
+                   v-for="(property, index) in arrayableProperties"
+                   :key="index"
+              >
+                <q-btn round
+                       flat
+                       icon="open_in_full"
+                       size="sm"
+                       @click="setLargeChart(`bar${property}`)"
+                />
+                <div v-for="(arr, arrIndex) in arrayableContent" :key="arrIndex">
+                  <apexchart type="bar"
+                             v-if="arr.series[0].property === property"
+                             :series="arr.series"
+                             :options="arr['chartOptions']"
+                             height="auto"
+                             width="100%"
+                  />
                 </div>
+              </div>
+
+            </div>
+            <div class="row" v-if="step === 6">
+              <div :class="(largeChart === '') ?
+                          'col-sm-12 col-md-12 col-lg-4' :
+                          (largeChart === `line${property}`) ?
+                          'col-sm-12 col-md-12 col-lg-6' :
+                          'col-sm-12 col-md-12 col-lg-3'"
+                   v-for="(property, index) in arrayableProperties"
+                   :key="index"
+              >
+                <q-btn round
+                       flat
+                       icon="open_in_full"
+                       size="sm"
+                       @click="setLargeChart(`line${property}`)"
+                />
+                <div v-for="(arr, arrIndex) in arrayableContent" :key="arrIndex">
+                  <apexchart type="line"
+                             v-if="arr.series[0].property === property"
+                             :series="arr.series"
+                             :options="arr['chartOptions']"
+                             height="auto"
+                             width="100%"
+                  />
+                </div>
+              </div>
+
+            </div>
           </q-step>
         </q-stepper>
         <q-card-actions>
@@ -137,6 +195,7 @@ export default {
 
   data() {
     return {
+      largeChart: '',
       mainContent: null,
       comparable: null,
       step: ref(1),
@@ -309,6 +368,10 @@ export default {
     },
   },
   methods: {
+    setLargeChart(chart) {
+      console.log(chart);
+      this.largeChart = (this.largeChart === chart) ? '' : chart;
+    },
     dataNormalize(a, b) {
       Object.getOwnPropertyNames(a).sort().forEach((property) => {
         if (!(property in b)) b[property] = 0;
