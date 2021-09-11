@@ -33,10 +33,10 @@ export default {
           this.comparables = [];
           this.comparableDisabled = false;
           localStorage.setItem('_visfisioMainContent', JSON.stringify(json));
-          this.$emit('stepTwo:update', this.mainContent);
+          if (this.mainContent !== undefined) this.$emit('stepTwo:update', this.mainContent);
         } else if (this.comparableValidate(json, inputId)) {
           this.comparables[`${inputId}`] = json;
-          this.$emit('stepFive:update', this.comparables);
+          if (this.comparables !== undefined) this.$emit('stepFive:update', this.comparables);
         } else {
           document.getElementById(inputId).value = null;
         }

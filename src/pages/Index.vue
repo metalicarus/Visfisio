@@ -60,44 +60,13 @@
                   icon="addchart"
                   >
                 <div class="row">
-                  <div class="col-sm-12 col-md-12 col-lg-3"
-                       v-for="(struture, index) in strutures"
-                       :key="index"
-                  >
-                    <q-tree node-key="label"
-                            :nodes="[struture]"
-                            :key="index"
-                    />
-                  </div>
+                  <q-table
+                    title="Propriedades singualres"
+                    :rows="tableRows"
+                    :columns="tableColumns"
+                    flat
+                  />
                 </div>
-<!--                <div class="row" v-if="step === 6">-->
-<!--                  <div :class="(largeChart === property) ?-->
-<!--                          'col-sm-12 col-md-12 col-lg-8' :-->
-<!--                          'col-sm-12 col-md-12 col-lg-4'"-->
-<!--                       v-for="(property, index) in arrayableProperties"-->
-<!--                       :key="index"-->
-<!--                       @click="setLargeChart(property)"-->
-<!--                  >-->
-<!--                    <div v-for="(arr, arrIndex) in arrayableContent" :key="arrIndex">-->
-<!--                      <apexchart type="bar"-->
-<!--                                 v-if="arr.series[0].property === property"-->
-<!--                                 :series="arr.series"-->
-<!--                                 :options="arr['chartOptions']"-->
-<!--                                 height="auto"-->
-<!--                                 width="100%"-->
-<!--                      />-->
-<!--                      <apexchart type="line"-->
-<!--                                 v-if="arr.series[0].property === property"-->
-<!--                                 :series="arr.series"-->
-<!--                                 :options="arr['chartOptions']"-->
-<!--                                 height="auto"-->
-<!--                                 width="100%"-->
-<!--                      />-->
-<!--                    </div>-->
-<!--                  </div>-->
-
-<!--                </div>-->
-
             <div class="row" v-if="step === 6">
               <div :class="(largeChart === '') ?
                           'col-sm-12 col-md-12 col-lg-4' :
@@ -151,6 +120,17 @@
                 </div>
               </div>
 
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-3"
+                   v-for="(struture, index) in structures"
+                   :key="index"
+              >
+                <q-tree node-key="label"
+                        :nodes="[struture]"
+                        :key="index"
+                />
+              </div>
             </div>
           </q-step>
         </q-stepper>
@@ -234,26 +214,37 @@ export default {
     };
   },
   computed: {
-    strutures() {
+    tableColumns() {
+      return this.singleProperties.map((x) => ({
+        name: x,
+        label: x,
+        field: x,
+        sortable: true,
+      }));
+    },
+    tableRows() {
+      const contents = this.comparables.slice();
+      contents.push(this.mainContent);
+      return contents;
+    },
+    structures() {
       const strutures = [];
 
-      const contents = [...this.comparables];
+      const contents = this.comparables.slice();
       contents.push(this.mainContent);
 
       contents.forEach((content, i) => {
-        if (content !== undefined) {
-          const keys = Object.keys(content);
-          const obj = {
-            label: i,
-            children: [],
-          };
-          keys.forEach((x) => {
-            if (!Array.isArray(content[x])) {
-              obj.children.push({ label: `${x}: ${content[x]}` });
-            }
-          });
-          strutures.push(obj);
-        }
+        const keys = Object.keys(content);
+        const obj = {
+          label: i,
+          children: [],
+        };
+        keys.forEach((x) => {
+          if (!Array.isArray(content[x])) {
+            obj.children.push({ label: `${x}: ${content[x]}` });
+          }
+        });
+        strutures.push(obj);
       });
       return strutures;
     },
