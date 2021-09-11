@@ -2,7 +2,7 @@
 
 ## TODO LIST
 
-- [ ] Ajustar mensagem de alerta ao inserir arquivos diferentes;
+- [x] Ajustar mensagem de alerta ao inserir arquivos diferentes;
 - [ ] Avaliar a possibilidade de, ao clicar em um dos gráficos, a div se expandir e ocupar as doze colunas;
 - [ ] Avaliar se todas as labels e descrições estão corretas para o fluxo de multiplos pacientes;
 - [ ] Ajustar o `height` do `stepper` para que ele preencha toda a tela;

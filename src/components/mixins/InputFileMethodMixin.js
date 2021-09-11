@@ -13,7 +13,8 @@ export default {
   methods: {
     incompatibleFileFormat(inputId, property) {
       Notify.create({
-        type: 'danger',
+        type: 'negative',
+        position: 'top-right',
         message: `O arquivo comparável nº ${inputId} contém uma propriedade inválida ${property}`,
       });
     },
