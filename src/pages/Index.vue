@@ -59,6 +59,7 @@
                   :icon="stepSix.icon"
                   >
             <step-six-content
+              v-if="step === 6"
               :main-content="mainContent"
               :comparables="comparables"
               :description="stepSix.description"
